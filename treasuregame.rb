@@ -25,14 +25,20 @@ class Room < Thing
 
 end
 
-class Map
+class Map 
+ @@room_count = 0
 
   def initialize( someRooms )
     @rooms = someRooms
+    @@room_count=someRooms.count
   end
 
   def to_s
     @rooms.each {|a_room| puts a_room}
+  end
+
+  def room_count
+    return "There are now #{@@room_count} rooms in the map"
   end
 end
 
@@ -67,3 +73,4 @@ puts "Treasure1 is #{t1.description}"
 
 puts "room1 name=#{room1.name}, description=#{room1.description}" 
 puts ( t1.show_classvars )
+puts ( mymap.room_count )
