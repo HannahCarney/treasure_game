@@ -1,3 +1,6 @@
+
+
+
 class Thing
   @@num_things=0 #class variable
 
@@ -12,7 +15,7 @@ class Thing
   end
 
   def to_s #override default to_s method
-    return "(Thing.to_s):: The #{@name} Thing is #{@description}"
+    return "The #{@name} and is #{@description}"
   end
 
   def show_classvars
@@ -50,10 +53,33 @@ class Treasure < Thing
     super(name, description)
     @value = value 
   end
+
+end
+
+class Weapon
+  attr_accessor :deadliness
+  attr_accessor :power
+
+  def initialize(deadliness, power)
+    @power = power
+    @deadliness = deadliness
+  end
+end
+
+class Sword < Weapon
+
+  attr_accessor :name
+
+  def initialize(name, deadliness, power)
+    super(deadliness, power)
+    @name = name
+  end
 end
 
 t1 = Treasure.new("Sword", "am Elvish weapon forged of gold", 800)
 t2 = Treasure.new("Dragon Horde", "a huge pile of jeweles", 550)
+
+sword = Sword.new("Excaliber", 10, 20)
 
 room1 = Room.new("Crystal Grotto", "A glittery cavern")
 room2 = Room.new("Dark Cace", "A gloomy hole in the rocks")
@@ -61,16 +87,22 @@ room3 = Room.new("Forest Glade", "A verdant clearing filled with shimmering ligh
 #intiliazes a map with the rooms just created
 mymap = Map.new([room1, room2, room3])
 
-puts "This is the treasure1: #{t1.inspect}"
-puts "This is the treasure2: #{t2.inspect}"
-
-puts "Treasure2 is #{t2.to_s}"
-
-puts "t1 name = #{t1.name}, description = #{t1.description}, value = #{t1.value}"
+puts
+puts "This is the Treasure1: #{t1.inspect}"
+puts "This is the Treasure2: #{t2.inspect}"
+puts
+puts "Treasure1 is #{t1.to_s} with the value:#{t1.value}"
+puts "Treasure2 is #{t2.to_s} with the value:#{t2.value}"
+puts
+puts "Your sword is #{sword.name}, with level #{sword.deadliness} deadliness and has #{sword.power} power"
+puts
 # change the description of the sword to be tarnished
-t1.description << " now somewhat tarnished"
+t1.description << " [now somewhat tarnished]"
 puts "Treasure1 is #{t1.description}"
-
-puts "room1 name=#{room1.name}, description=#{room1.description}" 
+puts
+puts "room1 name= #{room1.name}, description= #{room1.description}" 
+puts "room2 name= #{room2.name}, description= #{room2.description}" 
+puts "room3 name= #{room3.name}, description= #{room3.description}" 
+puts
 puts ( t1.show_classvars )
 puts ( mymap.room_count )
