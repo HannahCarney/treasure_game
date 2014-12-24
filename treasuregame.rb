@@ -45,7 +45,7 @@ class Map
   end
 end
 
-class Treasure < Thing
+  class Treasure < Thing
   attr_reader :value
   attr_writer :value
 
@@ -56,30 +56,26 @@ class Treasure < Thing
 
 end
 
-class Weapon
+module Weapon
   attr_accessor :deadliness
   attr_accessor :power
-
-  def initialize(deadliness, power)
-    @power = power
-    @deadliness = deadliness
-  end
 end
 
-class Sword < Weapon
-
+class Sword < Treasure
+  include Weapon
   attr_accessor :name
 
-  def initialize(name, deadliness, power)
-    super(deadliness, power)
-    @name = name
+  def initialize(name, description, value)
+    super(name, description, value)
   end
 end
 
-t1 = Treasure.new("Sword", "am Elvish weapon forged of gold", 800)
+t1 = Treasure.new("Sword", "an Elvish weapon forged of gold", 800)
 t2 = Treasure.new("Dragon Horde", "a huge pile of jeweles", 550)
 
-sword = Sword.new("Excaliber", 10, 20)
+sword = Sword.new("Excaliber", "an Elvish weapon forged of gold", 800)
+sword.deadliness = 10
+sword.power = 20
 
 room1 = Room.new("Crystal Grotto", "A glittery cavern")
 room2 = Room.new("Dark Cace", "A gloomy hole in the rocks")
@@ -94,7 +90,7 @@ puts
 puts "Treasure1 is #{t1.to_s} with the value:#{t1.value}"
 puts "Treasure2 is #{t2.to_s} with the value:#{t2.value}"
 puts
-puts "Your sword is #{sword.name}, with level #{sword.deadliness} deadliness and has #{sword.power} power"
+puts "Your sword is #{sword.name}, #{sword.description}. It is worth #{sword.value} rupees, has level #{sword.deadliness} deadliness and #{sword.power} power"
 puts
 # change the description of the sword to be tarnished
 t1.description << " [now somewhat tarnished]"
