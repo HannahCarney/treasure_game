@@ -27,9 +27,11 @@ end
 class Room < Thing
  DEFAULT_ROOM_NAME = "Unkown room"
  DEFAULT_ROOM_DESCRIPTION = "A mysterious place"
- def initialize(name = {}, description = {})
+ DEFAULT_MONSTER = "There is no enemy in here"
+ def initialize(name = {}, description = {}, monster = {})
    @name = name.fetch(:roomname, DEFAULT_ROOM_NAME)
    @description = description.fetch(:roomdescription, DEFAULT_ROOM_DESCRIPTION)
+   @monster = monster.fetch(:monster, DEFAULT_MONSTER)
  end
 
  def place_monster! (monster)
@@ -83,8 +85,17 @@ end
 
 class User < Thing
 
-  def initialize(name, description)
+  @lives = 10
+
+  def initialize(name, description, lives)
     super(name, description)
+    @lives = lives
+  end
+
+  def lives (player)
+    if monster :hit == true then
+      lives -=1
+    end
   end
 
   def get_treasure! (treasure)
@@ -94,19 +105,20 @@ class User < Thing
   def enter_room! (room)
     @room = room
   end
+end
 
-  def find_monster! (monster)
-    @monster = monster
+class Monster < Thing
+  def initialize (name, description, damage)
+    super(name, description)
+    @damage = damage
+  end
+
+  def hit! (player)
+    @lives =- 1 
   end
 end
 
-class Monster
-  def initialize ( someRooms )
-    @rooms = someRooms
-  end
-end
-
-newPlayer = User.new("Hannah", "a gallient hero")
+newPlayer = User.new("Hannah", "a gallient hero", 10)
 
 t1 = Treasure.new("Excaliber", "an Elvish weapon forged of gold", 800)
 t2 = Treasure.new("Dragon Horde", "a huge pile of jeweles", 550)
@@ -117,14 +129,16 @@ sword.power = 20
 
 t1 = sword
 
-room1 = Room.new({:roomname => "Crystal Grotto"}, {:roomdescription => "A glittery cavern"})
+monster1 = Monster.new("Ork", "a short, ugly little fella", 30)
+
+room1 = Room.new({:roomname => "Crystal Grotto"}, {:roomdescription => "A glittery cavern"}, {:monster => monster1})
 room2 = Room.new({:roomname => "Dark Cave"},  {:roomdescription => "A gloomy hole in the rocks"})
 room3 = Room.new({:roomname => "Forest Glade"}, {:roomdescription => "A verdant clearing filled with shimmering light"})
 room4 = Room.new
 #intiliazes a map with the rooms just created
 mymap = Map.new([room1, room2, room3])
 
-monster1 = Monster.new([room1])
+
 
 puts
 puts "This is your new player: #{newPlayer.name}, #{newPlayer.description}"
@@ -141,7 +155,7 @@ puts "Your sword is #{sword.name}, #{sword.description}. It is worth #{sword.val
 # change the description of the sword to be tarnished
 puts 
 newPlayer.enter_room!(room1)
-puts "The Player should now have entered room1: #{newPlayer.inspect}"
+puts "The Player should now have entered room1 and there should be a monster initialized in it: #{newPlayer.inspect}"
 puts
 room1
 puts "monster1 is initialized into room1: #{monster1.inspect}"
@@ -157,4 +171,5 @@ puts
 puts "Since room4 is unknown to the finder its name defaults to #{room4.name} and its description defaults to #{room4.description}"
 puts
 puts ( t1.show_classvars )
-puts ( mymap.room_count )
+puts ( mymap.room_count ) #unknown rooms cannot be seen on map
+
