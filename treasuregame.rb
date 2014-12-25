@@ -68,6 +68,7 @@ module Weapon
 end
 
 class Sword < Treasure
+  @@num_things -=1
   include Weapon
   attr_accessor :name
 
@@ -91,7 +92,6 @@ room3 = Room.new({:roomname => "Forest Glade"}, {:roomdescription => "A verdant 
 room4 = Room.new
 #intiliazes a map with the rooms just created
 mymap = Map.new([room1, room2, room3])
-puts
 
 puts "This is the Treasure1: #{t1.inspect}"
 puts "This is the Treasure2: #{t2.inspect}"
