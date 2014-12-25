@@ -28,8 +28,12 @@ class Room < Thing
  DEFAULT_ROOM_NAME = "Unkown room"
  DEFAULT_ROOM_DESCRIPTION = "A mysterious place"
  def initialize(name = {}, description = {})
-  @name = name.fetch(:roomname, DEFAULT_ROOM_NAME)
-  @description = description.fetch(:roomdescription, DEFAULT_ROOM_DESCRIPTION)
+   @name = name.fetch(:roomname, DEFAULT_ROOM_NAME)
+   @description = description.fetch(:roomdescription, DEFAULT_ROOM_DESCRIPTION)
+ end
+
+ def place_monster! (monster)
+   @monster = monster
  end
 end
 
@@ -78,12 +82,27 @@ class Sword < Treasure
 end
 
 class User < Thing
+
   def initialize(name, description)
     super(name, description)
   end
 
   def get_treasure! (treasure)
     @treasure = treasure
+  end
+
+  def enter_room! (room)
+    @room = room
+  end
+
+  def find_monster! (monster)
+    @monster = monster
+  end
+end
+
+class Monster
+  def initialize ( someRooms )
+    @rooms = someRooms
   end
 end
 
@@ -105,18 +124,29 @@ room4 = Room.new
 #intiliazes a map with the rooms just created
 mymap = Map.new([room1, room2, room3])
 
+monster1 = Monster.new([room1])
 
-puts "This is your new player: #{newPlayer.inspect}"
+puts
+puts "This is your new player: #{newPlayer.name}, #{newPlayer.description}"
 puts
 
 puts "Treasure1 is #{t1.to_s} with the value:#{t1.value}"
-puts "Treasure2 is #{t2.to_s} with the value:#{t2.value}"
+# puts "Treasure2 is #{t2.to_s} with the value:#{t2.value}"
 puts
-puts "Your sword is #{sword.name}, #{sword.description}. It is worth #{sword.value} rupees, has level #{sword.deadliness} deadliness and #{sword.power} power"
 puts
 newPlayer.get_treasure!(sword)
-puts "newPlayer should now have the sword: #{newPlayer.inspect}"
+puts "The Player should now have the sword: #{newPlayer.inspect}"
+puts
+puts "Your sword is #{sword.name}, #{sword.description}. It is worth #{sword.value} rupees, has level #{sword.deadliness} deadliness and #{sword.power} power"
 # change the description of the sword to be tarnished
+puts 
+newPlayer.enter_room!(room1)
+puts "The Player should now have entered room1: #{newPlayer.inspect}"
+puts
+room1
+puts "monster1 is initialized into room1: #{monster1.inspect}"
+#really want to initialize room with monster in it
+# need to create monster to tarnish sword
 t1.description << " [now somewhat tarnished]"
 puts "Treasure1 is #{t1.description}"
 puts
