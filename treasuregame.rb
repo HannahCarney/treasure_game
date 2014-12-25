@@ -77,6 +77,18 @@ class Sword < Treasure
   end
 end
 
+class User < Thing
+  def initialize(name, description)
+    super(name, description)
+  end
+
+  def get_treasure! (treasure)
+    @treasure = treasure
+  end
+end
+
+newPlayer = User.new("Hannah", "a gallient hero")
+
 t1 = Treasure.new("Excaliber", "an Elvish weapon forged of gold", 800)
 t2 = Treasure.new("Dragon Horde", "a huge pile of jeweles", 550)
 
@@ -93,14 +105,17 @@ room4 = Room.new
 #intiliazes a map with the rooms just created
 mymap = Map.new([room1, room2, room3])
 
-puts "This is the Treasure1: #{t1.inspect}"
-puts "This is the Treasure2: #{t2.inspect}"
+
+puts "This is your new player: #{newPlayer.inspect}"
 puts
+
 puts "Treasure1 is #{t1.to_s} with the value:#{t1.value}"
 puts "Treasure2 is #{t2.to_s} with the value:#{t2.value}"
 puts
 puts "Your sword is #{sword.name}, #{sword.description}. It is worth #{sword.value} rupees, has level #{sword.deadliness} deadliness and #{sword.power} power"
 puts
+newPlayer.get_treasure!(sword)
+puts "newPlayer should now have the sword: #{newPlayer.inspect}"
 # change the description of the sword to be tarnished
 t1.description << " [now somewhat tarnished]"
 puts "Treasure1 is #{t1.description}"
