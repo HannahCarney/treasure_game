@@ -25,11 +25,17 @@ class Thing
 end
 
 class Room < Thing
-
+ DEFAULT_ROOM_NAME = "Unkown room"
+ DEFAULT_ROOM_DESCRIPTION = "A mysterious place"
+ def initialize(name = {}, description = {})
+  @name = name.fetch(:roomname, DEFAULT_ROOM_NAME)
+  @description = description.fetch(:roomdescription, DEFAULT_ROOM_DESCRIPTION)
+ end
 end
 
-class Map 
+class Map
  @@room_count = 0
+
 
   def initialize( someRooms )
     @rooms = someRooms
@@ -70,20 +76,23 @@ class Sword < Treasure
   end
 end
 
-t1 = Treasure.new("Sword", "an Elvish weapon forged of gold", 800)
+t1 = Treasure.new("Excaliber", "an Elvish weapon forged of gold", 800)
 t2 = Treasure.new("Dragon Horde", "a huge pile of jeweles", 550)
 
 sword = Sword.new("Excaliber", "an Elvish weapon forged of gold", 800)
 sword.deadliness = 10
 sword.power = 20
 
-room1 = Room.new("Crystal Grotto", "A glittery cavern")
-room2 = Room.new("Dark Cace", "A gloomy hole in the rocks")
-room3 = Room.new("Forest Glade", "A verdant clearing filled with shimmering light")
+t1 = sword
+
+room1 = Room.new({:roomname => "Crystal Grotto"}, {:roomdescription => "A glittery cavern"})
+room2 = Room.new({:roomname => "Dark Cave"},  {:roomdescription => "A gloomy hole in the rocks"})
+room3 = Room.new({:roomname => "Forest Glade"}, {:roomdescription => "A verdant clearing filled with shimmering light"})
+room4 = Room.new
 #intiliazes a map with the rooms just created
 mymap = Map.new([room1, room2, room3])
-
 puts
+
 puts "This is the Treasure1: #{t1.inspect}"
 puts "This is the Treasure2: #{t2.inspect}"
 puts
@@ -99,6 +108,8 @@ puts
 puts "room1 name= #{room1.name}, description= #{room1.description}" 
 puts "room2 name= #{room2.name}, description= #{room2.description}" 
 puts "room3 name= #{room3.name}, description= #{room3.description}" 
+puts
+puts "Since room4 is unknown to the finder its name defaults to #{room4.name} and its description defaults to #{room4.description}"
 puts
 puts ( t1.show_classvars )
 puts ( mymap.room_count )
