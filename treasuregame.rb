@@ -85,17 +85,17 @@ end
 
 class User < Thing
 
-  @lives = 10
 
   def initialize(name, description, lives)
     super(name, description)
-    @lives = lives
+  
+    @hit = false
   end
 
   def lives (player)
-    if monster :hit == true then
-      lives -=1
-    end
+   
+    
+    
   end
 
   def get_treasure! (treasure)
@@ -114,7 +114,8 @@ class Monster < Thing
   end
 
   def hit! (player)
-    @lives =- 1 
+    @hit = true
+   
   end
 end
 
@@ -153,7 +154,7 @@ puts "The Player should now have the sword: #{newPlayer.inspect}"
 puts
 puts "Your sword is #{sword.name}, #{sword.description}. It is worth #{sword.value} rupees, has level #{sword.deadliness} deadliness and #{sword.power} power"
 # change the description of the sword to be tarnished
-puts 
+# puts 
 newPlayer.enter_room!(room1)
 puts "The Player should now have entered room1 and there should be a monster initialized in it: #{newPlayer.inspect}"
 puts
@@ -161,6 +162,7 @@ room1
 puts "monster1 is initialized into room1: #{monster1.inspect}"
 #really want to initialize room with monster in it
 # need to create monster to tarnish sword
+puts monster1.hit! (newPlayer)
 t1.description << " [now somewhat tarnished]"
 puts "Treasure1 is #{t1.description}"
 puts
