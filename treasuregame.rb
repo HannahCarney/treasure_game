@@ -137,7 +137,7 @@ room2 = Room.new({:roomname => "Dark Cave"},  {:roomdescription => "A gloomy hol
 room3 = Room.new({:roomname => "Forest Glade"}, {:roomdescription => "A verdant clearing filled with shimmering light"})
 room4 = Room.new
 #intiliazes a map with the rooms just created
-mymap = Map.new([room1, room2, room3])
+mymap = Map.new([room1, room2, room3, room4])
 
 
 
